@@ -25,4 +25,6 @@ float angleBetween(const vec2 &rhs, const vec2 &lhs);
 
 vec2 perp(const vec2 &v);
 
-vec2 angle(const vec2 &v);
+float angle(const vec2 &v);
+
+vec2 fromAngle(float a);

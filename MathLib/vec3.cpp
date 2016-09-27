@@ -1,78 +1,88 @@
 #include "vec3.h"
+#include "Flops.h"
 #include <cmath>
-#include "flops.h"
-vec3 operator+(const vec3 &lhs, const vec3 &rhs)
+vec3 operator+(const vec3 & lhs, const vec3 & rhs)
 {
-	return{ lhs.x + rhs.x, lhs.y + rhs.y };
+	return vec3{ lhs.x + rhs.x, lhs.y + rhs.y, lhs.z + rhs.z };
 }
-vec3 operator-(const vec3 &lhs, const vec3 &rhs)
+
+vec3 operator-(const vec3 & lhs, const vec3 & rhs)
 {
-	return{ lhs.x - rhs.x, lhs.y - rhs.y };
+	return vec3{ lhs.x - rhs.x, lhs.y - rhs.y, lhs.z - rhs.z };
 }
-vec3 operator/(const vec3 &lhs, float rhs)
+
+vec3 operator*(const vec3 & lhs, const vec3 & rhs)
 {
-	return{ lhs.x / rhs, lhs.y / rhs };
+	return vec3{ lhs.x * rhs.x, lhs.y * rhs.y, lhs.z * rhs.z };
 }
+vec3 operator/(const vec3 & lhs, const vec3 & rhs)
+{
+	return vec3{ lhs.x / rhs.x, lhs.y / rhs.y, lhs.z * rhs.z };
+}
+
+
 vec3 operator*(const vec3 &lhs, float rhs)
 {
-	return{ lhs.x * rhs, lhs.y * rhs };
+	return{ lhs.x * rhs, lhs.y * rhs, lhs.z * rhs };
 }
 vec3 operator*(float lhs, const vec3 &rhs)
 {
-	return rhs*lhs;
+	return{ rhs.x * lhs, rhs.x *lhs, rhs.z * lhs };
 }
-vec3 operator-(const vec3 &v)
+
+vec3 operator/(const vec3 &lhs, float rhs)
 {
-	return v*-1;
+	return{ lhs.x / rhs, lhs.y / rhs, lhs.z / rhs };
 }
-vec3 &operator+=(vec3 &lhs, const vec3 &rhs)
+
+
+vec3 operator-(const vec3 & v)
+{
+	return vec3{ -v.x, -v.y, -v.z };
+}
+
+vec3 & operator+=(vec3 & lhs, const vec3 & rhs)
 {
 	return lhs = lhs + rhs;
 }
-vec3 &operator-=(vec3 &lhs, const vec3 &rhs)
+
+vec3 & operator-=(vec3 & lhs, const vec3 & rhs)
 {
 	return lhs = lhs - rhs;
 }
-vec3 &operator*=(vec3 &lhs, float rhs)
+
+vec3 & operator*=(vec3 & lhs, const vec3 & rhs)
 {
 	return lhs = lhs * rhs;
 }
-vec3 &operator/=(vec3 &lhs, float rhs)
+
+vec3 & operator/=(vec3 & lhs, const vec3 & rhs)
 {
 	return lhs = lhs / rhs;
 }
 
-bool operator!= (const vec3 &lhs, const vec3 &rhs)
+bool operator==(const vec3 &lhs, const vec3 &rhs)
 {
-	return !fequals(lhs.x, rhs.x) || !fequals(lhs.y, rhs.y);
-}
-bool operator== (const vec3 &lhs, const vec3 &rhs)
-{
-	return fequals(lhs.x, rhs.x) && fequals(lhs.y, rhs.y);
-}
-float magnitude(const vec3 &v)
-{
-	return sqrt(v.x*v.x + v.y*v.y);
+	return fequals(lhs.x, rhs.x) && fequals(lhs.y, rhs.y) && fequals(lhs.z, rhs.z);
+	/*return lhs.x == rhs.x && lhs.y == rhs.y && lhs.z == rhs.z;*/
 }
 
-vec3 normal(const vec3 & v)
+bool operator!=(const vec3 &lhs, const vec3 &rhs)
 {
-	return (v / magnitude(v));
+	return lhs.x != rhs.x && lhs.y != rhs.y && lhs.z != rhs.z;
 }
 
-float dot(const vec3 & rhs, const vec3 & lhs)
+float magnitude(const vec3 & v)
 {
-	return(rhs.x * lhs.x + rhs.y * lhs.y);
+	return (sqrt((v.x*v.x) + (v.y * v.y) + (v.z* v.z)));
 }
-float angleBetween(const vec3 & rhs, const vec3 & lhs)
-{
-	return acos(dot(rhs, lhs));
-}
+
 vec3 per(const vec3 & v)
 {
-	return vec3();
+	return (v / (sqrt((v.x*v.x) + (v.y * v.y) + (v.z * v.z))));
 }
-vec3 angle(const vec3 & v)
+
+vec3 cross(const vec3 & lhs, const vec3 & rhs)
 {
-	return vec3();
+	return  vec3{ (rhs.z*lhs.y) - (rhs.y*lhs.z) , (rhs.x* lhs.z) - (rhs.z* lhs.x), (rhs.y*lhs.x) - (rhs.x*lhs.y) };
 }

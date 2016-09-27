@@ -1,7 +1,9 @@
 #include <cassert>
 #include <cstdio>
+#include <cmath>
 #include "test.h"
 #include "vec2.h"
+#include "vec3.h"
 #include "flops.h"
 int main()
 {
@@ -49,28 +51,40 @@ int main()
 	assert(bezier(1, { 0,0,0 }, { 1,0,0 }, { 2,0,0 }, { 3,0,0 }).x == 3);
 	assert(bezier(0.5f, { 0,0,0 }, { 1,0,0 }, { 2,0,0 }, { 3,0,0 }).x == 1.5);
 
-
-	assert((vec2{ 0,0 } == vec2{ 0, 0 }));
-	assert((vec2{ 1,0 } == vec2{ 1,0 }));
-
-
 	assert((vec2{ 1,1 } +vec2{ -1,0 } == vec2{ 0,1 }));
+	assert((vec2{ 1,1 } -vec2{ 0,0 } == vec2{ 1,1 }));
+	assert(((vec2{ 1,1 } / 1.f) == vec2{ 1, 1 }));
+	assert(((vec2{ 1,1 } *1.f) == vec2{ 1, 1 }));
+	assert(((1.f * vec2{ 1,1 }) == vec2{ 1, 1 }));
+	assert(((vec2{ 10 , -10 }*-1) == vec2{ -10 , 10 }));
 
-
-	vec2 var = { 4,0 };
-	var += vec2{ -3,1 };
-	assert((var == vec2{ 1,1 }));
-
-
+	assert((vec2{ 10,10 }) == (vec2{ 5,5 } +(vec2{ 5,5 })));
+	assert((vec2{ 5,5 }) == (vec2{ 10,10 } -(vec2{ 5,5 })));
+	assert((vec2{ 10,10 }) == (vec2{ 5,5 } *2.0f));
+	assert((vec2{ 5,5 }) == (vec2{ 10,10 } / 2.0f));
+	
+	assert(normal(vec2{ 0,1 }) == (vec2{ 0,1 }));
+	assert(fequals(1, .9999999f));
 	vec2 N = normal(vec2{ 1,1 });
-	assert(N.x == N.y);
+
+	assert((vec2{ 0,0 } == vec2{ 0,0 }));
+	assert((vec2{ 1,3 } != vec2{ 2,3 }));
 
 
 	assert(fequals(magnitude(N), 1));
-	assert(normal(N) == N);
-	assert((normal(vec2{ 0,1 }) == vec2{ 0,1 }));
+	assert(fequals(dot(vec2{ 5,4 }, vec2{ 1,0 }), 5));
+	assert(fequals(dot(vec2{ 5,4 }, vec2{ 0,1 }), 4));
+	assert(fequals(angleBetween(vec2{1,0}, vec2{ 0,1 }),
+		deg2rad(90)));
+	assert(fequals(angleBetween(vec2{ 1,1 }, vec2{ 0,1 }),
+		deg2rad(45)));
+	assert(fequals(angleBetween(vec2{ 1,1 }, vec2{ 0,1 }),
+		angle(vec2{ 1,1 })));
 
-	
-	assert(fequals(1, .9999999f));
+	assert((fromAngle(0) == vec2{ 1,0 }));
+	assert((fromAngle(deg2rad(90)) == vec2{ 0,1 }));
+
+	assert((cross(vec3{ 0,1,0 }, vec3{ 1,0,0 })
+		== vec3{ 0,0,-1 }));
 	return 0;
 }

@@ -1,7 +1,6 @@
 #include "vec2.h"
 #include <cmath>
 #include "flops.h"
-
 vec2 operator+(const vec2 &lhs, const vec2 &rhs)
 {
 	return{ lhs.x + rhs.x, lhs.y + rhs.y };
@@ -50,7 +49,6 @@ bool operator!= (const vec2 &lhs, const vec2 &rhs)
 bool operator== (const vec2 &lhs, const vec2 &rhs)
 {
 	return fequals(lhs.x, rhs.x) && fequals(lhs.y, rhs.y);
-	//return  lhs.x == rhs.x && lhs.y == rhs.y;
 }
 float magnitude(const vec2 &v)
 {
@@ -69,15 +67,20 @@ float dot(const vec2 & rhs, const vec2 & lhs)
 
 float angleBetween(const vec2 &rhs, const vec2 &lhs)
 {
-	return acos(dot(rhs, lhs));
+	return acos(dot(normal(rhs), normal(lhs)));
 }
 
 vec2 perp(const vec2 & v)
 {
-	return
+	return vec2{ v.y, -v.x };
 }
 
-vec2 angle(const vec2 & v)
+float angle(const vec2 & v)
 {
-	return vec2();
+	return atan2f(v.y, v.x);
+}
+
+vec2 fromAngle(float a)
+{
+	return vec2{ cos(a), sin(a) };
 }
