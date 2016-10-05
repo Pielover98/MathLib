@@ -15,7 +15,7 @@ public:
 	vec2 acceleration;
 
 
-	float mass; 
+	float mass, drag, angularDrag; 
 	float angularVelocity;
 	float angularAcceleration;
 	float torque;
@@ -25,4 +25,5 @@ public:
 	void addImpulse(const vec2 &impulse);
 	void addTorque(float torque);
 	void integrate(Transform &trans, float deltaTime);	
+	void debugDraw(const Transform &trans);
 };

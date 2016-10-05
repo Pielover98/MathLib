@@ -52,6 +52,7 @@ void main()
 		
 		
 		playerTransform.debugDraw();
+		playerRigidbody.debugDraw(playerTransform);
 	}
 	sfw::termContext();
 }
