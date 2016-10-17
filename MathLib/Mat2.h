@@ -33,6 +33,5 @@ mat2 operator*(float s, const mat2 &A);
 mat2 operator*(const mat2 &A, const mat2 &B);
 vec2 operator*(const mat2 &A, const vec2 &V);
 
-
 float determinant(const mat2 &A);
 mat2 inverse(const mat2 &A);

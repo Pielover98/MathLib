@@ -1,16 +1,17 @@
 #include "Transform.h"
 #include "sfwdraw.h"
 
-Transform::Transform(float x, float y,
-	float w, float h, float a)
+Transform::Transform(float x, float y, float w, float h, float a)
 {
-	position.x = x;
-	position.y = y;
+	m_position.x = x;
+	m_position.y = y;
 
-	scale.x = w;
-	scale.y = h;
+	m_scale.x = w;
+	m_scale.y = h;
 
-	facing = a;
+	m_facing = a;
+
+	m_parent = nullptr;
 }
 
 vec2 Transform::getUp() const
@@ -18,24 +19,57 @@ vec2 Transform::getUp() const
 	return -perp(getDirection());
 }
 
+
 vec2 Transform::getDirection() const
 {
-	return fromAngle(facing);
+	return fromAngle(m_facing);
 }
+
 
 void Transform::setDirection(const vec2 &dir)
 {
-	facing = angle(dir);
+	m_facing = angle(dir);
 }
 
-void Transform::debugDraw() const
+
+/*
+This function gets our global transform!
+*/
+mat3 Transform::getGlobalTransform() const
 {
-	sfw::drawCircle(position.x, position.y, 12,12, 0x888888FF);
+	if (m_parent == nullptr)
+		return getLocalTransform();
+	else
+		return m_parent->getGlobalTransform() * getLocalTransform();
+}
 
-	vec2 dirEnd = position + getDirection() * scale.x * 4;
-	vec2 upEnd = position - perp(getDirection()) * scale.y * 4;
 
-	sfw::drawLine(position.x, position.y, dirEnd.x,   dirEnd.y, RED);
 
-	sfw::drawLine(position.x, position.y, upEnd.x, upEnd.y, GREEN);
+mat3 Transform::getLocalTransform() const
+{
+	mat3 T = translate(m_position.x, m_position.y);
+	mat3 S = scale(m_scale.x, m_scale.y);
+	mat3 R = rotate(m_facing);
+
+	return T * R * S;
+}
+
+void Transform::debugDraw(const mat3 &T) const
+{
+	// Use global transform for stuff now!
+	mat3 L = T * getGlobalTransform();
+
+	vec3 pos = L[2];
+
+	vec3 right = L * vec3{ 10, 0, 1 };
+	vec3 up = L * vec3{ 0, 10, 1 };
+
+	sfw::drawLine(pos.x, pos.y, right.x, right.y, RED);
+	sfw::drawLine(pos.x, pos.y, up.x, up.y, GREEN);
+
+	// Draw line to parent if possible.
+	vec3 sgp = m_parent ? m_parent->getGlobalTransform()[2] : pos;
+	sfw::drawLine(sgp.x, sgp.y, pos.x, pos.y, BLUE);
+
+	sfw::drawCircle(pos.x, pos.y, 12, 12, 0x888888FF);
 }

@@ -174,6 +174,13 @@ int main()
 	bool r5 = (T*R*S == RES);
 
 
+	vec3 test
+		= rotate(deg2rad(-90)) * translate(10, 0) *
+		rotate(deg2rad(45))  * translate(4, 0) *
+		rotate(deg2rad(45))  * translate(-6, 0) *
+		translate(6, 4)      *  vec3 { 0, 0, 1 };
+
+	assert((test == vec3{ 2 * sqrtf(2), -6 - 2 * sqrtf(2) , 1 }));
 	return 0;
 }
 

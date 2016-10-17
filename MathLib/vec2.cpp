@@ -154,4 +154,3 @@ float &vec2::operator[](unsigned idx)
 {
 	return v[idx];
 }
-

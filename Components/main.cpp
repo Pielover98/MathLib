@@ -8,53 +8,59 @@
 
 void main()
 {
-	float SCREEN_WIDTH = 1920, SCREEN_HEIGHT = 1080;
+	float SCREEN_WIDTH = 1200, SCREEN_HEIGHT = 1200;
 	sfw::initContext(SCREEN_WIDTH, SCREEN_HEIGHT);
 	float steps = 100;
 
-
 	vec2 start = { 200, 300 },
 		end = { 900, 800 },
-		mid = { 0, 1100}; 
+		mid = { 0, 1100 };
 
-	Transform playerTransform(200,200);
-	playerTransform.scale = { 10,10 };
+
+	Transform playerTransform(200, 200);
+	Transform ST1(100, 0);
+	Transform ST2(100, 0);
+	Transform ST3(100, 0);
+	Transform ST4(100, 0);
+
+	ST1.m_parent = &playerTransform;
+	ST2.m_parent = &ST1;
+	ST3.m_parent = &ST2;
+	ST4.m_parent = &ST3;
+
 
 	Rigidbody playerRigidbody;
-
-	SpaceShipLocoMotion playerLoco;
 	SpaceShipController playerCtrl;
+	SpaceShipLocoMotion playerLoco;
 
-	playerTransform.scale = { 24, 24 };
 	while (sfw::stepContext())
 	{
 		float deltaTime = sfw::getDeltaTime();
 
-		/*
-		if (sfw::getKey('W')) playerRigidbody.acceleration.y += 10.0f;
-		if (sfw::getKey('S')) playerRigidbody.acceleration.y -= 10.0f;
-		if (sfw::getKey('A')) playerRigidbody.acceleration.x -= 10.0f;
-		if (sfw::getKey('D')) playerRigidbody.acceleration.x += 10.0f;
+		// Wrap the player's position within the screen bounds
+		if (playerTransform.m_position.x > SCREEN_WIDTH)
+			playerTransform.m_position.x = 0.0f;
+		else if (playerTransform.m_position.x < 0.0f)
+			playerTransform.m_position.x = SCREEN_WIDTH;
 
+		if (playerTransform.m_position.y > SCREEN_HEIGHT)
+			playerTransform.m_position.y = 0.0f;
+		else if (playerTransform.m_position.y < 0.0f)
+			playerTransform.m_position.y = SCREEN_HEIGHT;
 
-		if (sfw::getKey('Q')) playerRigidbody.angularAcceleration += 1.0f;
-		if (sfw::getKey('E')) playerRigidbody.angularAcceleration -= 1.0f;
-*/
-		
-		
-		
-
-
-		
-		
-
+		// Apply rigidbody forces
 		playerCtrl.update(playerLoco);
-		playerLoco.update(playerTransform , playerRigidbody);
+		playerLoco.update(playerTransform, playerRigidbody);
 		playerRigidbody.integrate(playerTransform, deltaTime);
-		
-		
+
+		// Draw the player
 		playerTransform.debugDraw();
 		playerRigidbody.debugDraw(playerTransform);
+
+		ST1.debugDraw();
+		ST2.debugDraw();
+		ST3.debugDraw();
+		ST4.debugDraw();
 	}
 	sfw::termContext();
 }
