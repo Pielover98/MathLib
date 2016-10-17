@@ -27,10 +27,10 @@ void SpaceShipLocoMotion::update(const Transform &trans, Rigidbody & rigidbody)
 	rigidbody.addTorque(turnSpeed * horzThrust);
 
 
-	//float currentSpeed = magnitude(rigidbody.velocity);
 
 
-	//-normal(rigidbody.velocity);
+
+
 	rigidbody.addForce(-rigidbody.velocity * breakPower * stopAction);
 	rigidbody.addTorque(-rigidbody.angularVelocity * breakPower * stopAction);
 	horzThrust = vertThrust = stopAction = 0;

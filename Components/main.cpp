@@ -24,6 +24,8 @@ void main()
 
 	SpaceShipLocoMotion playerLoco;
 	SpaceShipController playerCtrl;
+
+	playerTransform.scale = { 24, 24 };
 	while (sfw::stepContext())
 	{
 		float deltaTime = sfw::getDeltaTime();
@@ -39,12 +41,12 @@ void main()
 		if (sfw::getKey('E')) playerRigidbody.angularAcceleration -= 1.0f;
 */
 		
-		//if (playerTransform.position.x > SCREEN_WIDTH) playerTransform.position.x = 0.0f;
-		//else if (playerTransform.position.x < 0.0f) playerTransform = SCREEN_WIDTH;
+		
+		
 
 
-		//if (playerTransform.position.y > SCREEN_HEIGHT) playerTransform.position.y = 0.0f;
-		//else if (playerTransform.position.y < 0.0f)	playerTransform.position.y = SCREEN_HEIGHT;
+		
+		
 
 		playerCtrl.update(playerLoco);
 		playerLoco.update(playerTransform , playerRigidbody);

@@ -10,7 +10,6 @@ class SpaceShipLocoMotion
 	float speed;
 	float maxSpeed;
 
-
 public:
 	SpaceShipLocoMotion();
 	
