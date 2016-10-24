@@ -103,6 +103,11 @@ vec3 operator*(const mat3 & A, const vec3 & V)
 }
 
 
+vec2 amul(const mat3 & A, const vec2 & V)
+{
+	return (A * vec3{ V.x, V.y, 1 }).xy;
+}
+
 
 float determinant(const mat3 & A)
 {

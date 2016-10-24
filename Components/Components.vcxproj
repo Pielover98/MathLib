@@ -127,16 +127,22 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PlanetaryMotor.cpp" />
+    <ClCompile Include="PlanetaryRenderer.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="SpaceShipController.cpp" />
     <ClCompile Include="SpaceShipLocoMotion.cpp" />
+    <ClCompile Include="SpaceShipRenderer.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="PlanetaryMotor.h" />
+    <ClInclude Include="PlanetaryRenderer.h" />
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="sfwdraw.h" />
     <ClInclude Include="SpaceShipController.h" />
     <ClInclude Include="SpaceShipLocoMotion.h" />
+    <ClInclude Include="SpaceShipRenderer.h" />
     <ClInclude Include="Transform.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
