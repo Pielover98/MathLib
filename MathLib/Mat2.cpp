@@ -66,8 +66,7 @@ mat2 transpose(const mat2 &A)
 
 mat2 operator*(const mat2 & A, const mat2 & B)
 {
-	// flip the values using transpose,
-	// so that I can access rows as vectors
+
 	mat2 At = transpose(A);
 	mat2 retval;
 
