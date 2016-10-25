@@ -25,5 +25,5 @@ public:
 	void addImpulse(const vec2 &impulse);
 	void addTorque(float torque);
 	void integrate(Transform &trans, float deltaTime);	
-	void debugDraw(const mat3& T, const Transform &trans);
+	void debugDraw(const Transform &trans);
 };
