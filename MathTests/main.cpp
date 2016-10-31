@@ -1,16 +1,23 @@
 #include <cassert>
 #include <cstdio>
 
+
 #include "vec2.h"
 #include "vec3.h"
 #include "flops.h"
 
+
 #include "Mat2.h"
 #include "Mat3.h"
 
-#include <cmath>
 
 #include "shapes.h"
+
+
+#include "Collision.h"
+
+
+#include <cmath>
 
 
 int main()
@@ -138,15 +145,16 @@ int main()
 	assert(mI*-1 == -mI);
 
 	assert(mI * mI == mI);
-	//assert((mat2{ 1,2,3,4 }) * mI == (mat2{ 1,2,3,4 }));
+	assert((mat2{ 1,2,3,4 }) * mI == (mat2{ 1,2,3,4 }));
+	assert((mat2{ 1,5,2,9 } *(mat2{ 3,1,4,12 }) == (mat2{5, 24, 28, 128})));
 
 	assert(mI * v0 == v0);
-	assert((t0 * v0 == vec2{ 4,2 }));
+	assert((t0 * v0 == vec2{ 4,3 }));
 
 	assert(transpose(mI) == mI);
 	assert(inverse(mI) == mI);
 
-	//assert(t0*inverse(t0) == mI);
+	assert(t0*inverse(t0) == mI);
 
 	mat3 t03 = {};
 	mat3 mI3 = mat3Identity();
@@ -205,9 +213,6 @@ int main()
 		RES = RES * R * T;
 	}
 
-
-
-
 	Circle c = { 0, 0, 5 };
 
 
@@ -229,9 +234,54 @@ int main()
 	AABB testB = { 0,0,2,1 };
 	mat3 rot = rotate(deg2rad(90));
 
-	//assert((rot*testB == AABB{ 0,0,1,2 }));
+	assert((rot*testB == AABB{ 0,0,1,2 }));
 
-	return 0;
+
+	assert(collisionDetection1D(0, 2, 1, 3).result() == true);
+
+
+	assert(collisionDetection1D(0, 2, 1, 3).penetrationDepth == 1);
+	assert(collisionDetection1D(1, 3, 0, 2).penetrationDepth == 1);
+
+	assert(collisionDetection1D(0, 2, 1, 3).collisionNormal == 1);
+	assert(collisionDetection1D(1, 3, 0, 2).collisionNormal == -1);
+
+	SweptCollisionData1D swcd = sweptDetection1D(0, 1, 2, 3, 4, 0);
+
+	assert(sweptDetection1D(0, 1, 2, 3, 4, 0).entryTime == 1.f);
+	assert(sweptDetection1D(0, 1, 5, 3, 4, 0).entryTime == .4f);
+
+	assert(sweptDetection1D(0, 1, -5, 3, 4, 10).result() == false);
+
+
+	AABB A = { 0,0, 2,4 };
+	AABB B = { 2,2, 2,4 };
+
+	assert(boxCollision(A, B).penetrationDepth == 2);
+	assert((boxCollision(A, B).collisionNormal == vec2{ 1, 0 }));
+	assert((boxCollision(B, A).collisionNormal == vec2{ -1, 0 }));
+
+
+	AABB As = { 0,0, 1,1 };
+	AABB Bs = { 0,10, 1,1 };
+
+
+	//assert(fequals(boxCollisionSwept(As, vec2{ 1,0 }, Bs, vec2{ -1,0 }).entryTime, 4));
+	//assert(fequals(boxCollisionSwept(As, vec2{ 1,0 }, Bs, vec2{ -1,0 }).exitTime, 6));
+
+	CollisionDataSwept testing =
+		boxCollisionSwept(As, vec2{ 0,1 }, Bs, vec2{ 0 ,-1 });
+
+	assert(fequals(boxCollisionSwept(As, vec2{ 0, 1 },
+		Bs, vec2{ 0,-1 }).entryTime, 4));
+
+	assert(fequals(boxCollisionSwept(As, vec2{ 0, 1 },
+		Bs, vec2{ 0,-1 }).exitTime, 6));
+
+
+	assert(fequals(boxCollisionSwept(As, vec2{ 0,-1 },
+		Bs, vec2{ 0 ,1 }).exitTime, -4));
+
 	return 0;
 }
 
