@@ -32,6 +32,7 @@ vec2 AABB::max() const
 {
 	return pos + he;
 }
+
 AABB operator*(const mat3 & T, const AABB & box)
 {
 	AABB retval = box;
@@ -59,12 +60,11 @@ AABB operator*(const mat3 & T, const AABB & box)
 	return retval;
 }
 
-bool operator==(const AABB & A, const AABB & B)
-{
-	return A.pos == B.pos && A.he == B.he;
-}
-
-
+/*
+[rs rs tx][x]
+[rs rs ty][y] = rs*x + rs*y + tx*0
+[ 0  0  1][0]
+*/
 Plane operator*(const mat3 & T, const Plane & P)
 {
 	Plane retval;
@@ -79,6 +79,8 @@ Plane operator*(const mat3 & T, const Plane & P)
 }
 
 
-
-
+bool operator==(const Plane & A, const Plane & B)
+{
+	return A.pos == B.pos && A.dir == B.dir;
+}
 

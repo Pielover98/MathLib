@@ -1,5 +1,7 @@
 #pragma once
+
 #include "mat3.h"
+
 
 
 struct Circle
@@ -9,8 +11,18 @@ struct Circle
 };
 
 
+
+
+
+
 Circle operator*(const mat3 &T, const Circle &C);
+
+
+
+
 bool  operator==(const Circle &A, const Circle &B);
+
+
 
 
 struct AABB
@@ -40,10 +52,19 @@ bool  operator==(const Plane &A, const Plane &B);
 
 
 struct Ray { };
-struct Hull { };
+struct Hull
+{
+	vec2 vertices[16];
+	vec2 normals[16];
+	size_t vsize, nsize;
+	unsigned int vsize, nsize;
+
+	Hull(const vec2 *vertices, unsigned vsize);
+
+};
 
 
 
 
-Ray    operator*(const mat3 &T, const Ray    &R);
+Ray    operator*(const mat3 &T, const Ray &R);
 Hull   operator*(const mat3 &T, const Hull   &H);

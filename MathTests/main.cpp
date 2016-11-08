@@ -213,6 +213,7 @@ int main()
 		RES = RES * R * T;
 	}
 
+
 	Circle c = { 0, 0, 5 };
 
 
@@ -231,10 +232,12 @@ int main()
 	assert((testA.min() == vec2{ -2,-2 }));
 	assert((testA.max() == vec2{ 4, 6 }));
 
-	AABB testB = { 0,0,2,1 };
+	AABB testB = {0,0,2,1};
 	mat3 rot = rotate(deg2rad(90));
 
-	assert((rot*testB == AABB{ 0,0,1,2 }));
+	//assert((rot*testB == AABB{0,0,1,2}));
+
+
 
 
 	assert(collisionDetection1D(0, 2, 1, 3).result() == true);
@@ -282,6 +285,26 @@ int main()
 	assert(fequals(boxCollisionSwept(As, vec2{ 0,-1 },
 		Bs, vec2{ 0 ,1 }).exitTime, -4));
 
-	return 0;
-}
 
+	AABB Bp = { 0,0, 4,4 };
+
+	Plane P1 = { 0,0,0,1 }; 
+	Plane P2 = { 0,-10,0,1 };
+	Plane P3 = { 0, 10,0,1 }; 
+
+	Plane P4 = { vec2{ 6,6 }, normal(vec2{ -1,1 }) }; 
+	Plane P5 = { vec2{ 6,6 }, normal(vec2{ -1,-1 }) };
+
+	assert(planeBoxCollision(P1, Bp).result());
+	assert(!planeBoxCollision(P2, Bp).result());
+	assert(planeBoxCollision(P3, Bp).result());
+	assert(planeBoxCollision(P4, Bp).result());
+	assert(!planeBoxCollision(P5, Bp).result());
+
+	Plane P6 = { 10, 0,-1,0 }; 
+	assert(
+		fequals(
+			planeBoxCollisionSwept(P6, vec2{ 0,0 },
+				Bp, vec2{ 1,0 }).entryTime,
+			6.f));
+}

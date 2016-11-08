@@ -12,7 +12,7 @@
 
 void main()
 {
-	float SCREEN_WIDTH = 1920, SCREEN_HEIGHT = 1080;
+	float SCREEN_WIDTH = 1200, SCREEN_HEIGHT = 1200;
 	sfw::initContext(SCREEN_WIDTH, SCREEN_HEIGHT);
 
 
@@ -41,8 +41,6 @@ void main()
 				sfw::getDeltaTime() * 10);
 
 
-		
-		
 
 		mat3 proj = translate(600, 600) * scale(2, 2);
 		mat3 view = inverse(cameraTransform.getGlobalTransform());
@@ -51,23 +49,22 @@ void main()
 
 		playerRender.draw(camera, playerTransform);
 
-
-		
-		
 		cameraTransform.debugDraw(camera);
 
 		playerTransform.debugDraw(camera);
 		playerRigidbody.debugDraw(camera, playerTransform);
 
-
-
-		
-		
 		drawAABB(camera
 			* playerTransform.getGlobalTransform()
 			* AABB {
 			0, 0, 1, 2
 		}, RED);
+
+		drawPlane(camera
+			* playerTransform.getGlobalTransform()
+			* Plane {
+			0, 0, 0, 1
+		}, WHITE);
 	}
 	sfw::termContext();
 }
