@@ -33,13 +33,14 @@ vec2 AABB::max() const
 	return pos + he;
 }
 
+
+
 AABB operator*(const mat3 & T, const AABB & box)
 {
 	AABB retval = box;
 	vec3 tP[4];
 
-	
-	tP[0] = T * vec3{ box.min().x, box.min().y, 1 };
+		tP[0] = T * vec3{ box.min().x, box.min().y, 1 };
 	tP[1] = T * vec3{ box.max().x, box.max().y, 1 };
 	tP[2] = T * vec3{ box.max().x, box.min().y, 1 };
 	tP[3] = T * vec3{ box.min().x, box.max().y, 1 };
@@ -60,15 +61,10 @@ AABB operator*(const mat3 & T, const AABB & box)
 	return retval;
 }
 
-/*
-[rs rs tx][x]
-[rs rs ty][y] = rs*x + rs*y + tx*0
-[ 0  0  1][0]
-*/
+
 Plane operator*(const mat3 & T, const Plane & P)
 {
 	Plane retval;
-
 	retval.pos =
 		(T * vec3{ P.pos.x, P.pos.y, 1 }).xy;
 
@@ -84,3 +80,33 @@ bool operator==(const Plane & A, const Plane & B)
 	return A.pos == B.pos && A.dir == B.dir;
 }
 
+Hull operator*(const mat3 & T, const Hull & H)
+{
+	Hull retval;
+	retval.size = H.size;
+	for (int i = 0; i < H.size; ++i)
+	{
+		
+		retval.vertices[i] = (T * vec3{ H.vertices[i].x, H.vertices[i].y, 1 }).xy;
+
+		
+		retval.normals[i] = (T * vec3{ H.normals[i].x, H.normals[i].y, 0 }).xy;
+	}
+	return retval;
+}
+
+Hull::Hull(const vec2 *a_vertices, unsigned a_size)
+{
+	size = a_size;
+
+	for (int i = 0; i < size && i < 16; ++i)
+	{
+		vertices[i] = a_vertices[i];
+		normals[i] = -perp(normal(a_vertices[(i + 1) % size]
+			- a_vertices[i]));
+	}
+}
+
+Hull::Hull()
+{
+}
