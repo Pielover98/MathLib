@@ -1,4 +1,5 @@
 #include "shapes.h"
+#include <cmath>
 #include "flops.h"
 
 Circle operator*(const mat3 & T, const Circle & C)
@@ -34,13 +35,13 @@ vec2 AABB::max() const
 }
 
 
-
 AABB operator*(const mat3 & T, const AABB & box)
 {
 	AABB retval = box;
 	vec3 tP[4];
 
-		tP[0] = T * vec3{ box.min().x, box.min().y, 1 };
+	
+	tP[0] = T * vec3{ box.min().x, box.min().y, 1 };
 	tP[1] = T * vec3{ box.max().x, box.max().y, 1 };
 	tP[2] = T * vec3{ box.max().x, box.min().y, 1 };
 	tP[3] = T * vec3{ box.min().x, box.max().y, 1 };
@@ -90,9 +91,25 @@ Hull operator*(const mat3 & T, const Hull & H)
 		retval.vertices[i] = (T * vec3{ H.vertices[i].x, H.vertices[i].y, 1 }).xy;
 
 		
-		retval.normals[i] = (T * vec3{ H.normals[i].x, H.normals[i].y, 0 }).xy;
+		retval.normals[i] = normal((T * vec3{ H.normals[i].x, H.normals[i].y, 0 }).xy);
 	}
 	return retval;
+}
+
+float Hull::min(const vec2 & axis) const
+{
+	float amin = INFINITY;
+	for (int i = 0; i < size; ++i)
+		amin = fminf(dot(axis, vertices[i]), amin);
+	return amin;
+}
+
+float Hull::max(const vec2 & axis) const
+{
+	float amax = -INFINITY;
+	for (int i = 0; i < size; ++i)
+		amax = fmaxf(dot(axis, vertices[i]), amax);
+	return amax;
 }
 
 Hull::Hull(const vec2 *a_vertices, unsigned a_size)
@@ -107,6 +124,4 @@ Hull::Hull(const vec2 *a_vertices, unsigned a_size)
 	}
 }
 
-Hull::Hull()
-{
-}
+Hull::Hull() { size = 0; }

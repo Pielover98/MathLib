@@ -1,70 +1,26 @@
-#include "sfwdraw.h"
-#include "vec2.h"
-#include "flops.h"
-#include "Transform.h"
-#include "Rigidbody.h"
-#include "SpaceshipLocomotion.h"
-#include "SpaceshipController.h"
-#include "SpaceshipRenderer.h"
-#include "shapedraw.h"
-#include "shapes.h"
 
+#include "sfwdraw.h"
+#include "GameState.h"
+
+#include <cstdio>
 
 void main()
 {
-	float SCREEN_WIDTH = 1200, SCREEN_HEIGHT = 1200;
+	float SCREEN_WIDTH = 1920, SCREEN_HEIGHT = 1080;
 	sfw::initContext(SCREEN_WIDTH, SCREEN_HEIGHT);
 
+	GameState game;
 
-	Transform playerTransform(200, 200);
-	playerTransform.m_scale = vec2{ 20, 10 };
-
-	Rigidbody playerRigidbody;
-	SpaceShipController playerCtrl;
-	SpaceShipLocoMotion playerLoco;
-	SpaceShipRenderer playerRender;
-
-	Transform cameraTransform;
+	game.play();
 
 	while (sfw::stepContext())
 	{
-		float deltaTime = sfw::getDeltaTime();
+		float dt = sfw::getDeltaTime();
 
-		playerCtrl.update(playerLoco);
-		playerLoco.update(playerTransform, playerRigidbody);
-		playerRigidbody.integrate(playerTransform, deltaTime);
+		game.update(dt);
 
+		game.draw();
 
-		cameraTransform.m_position
-			= lerp(cameraTransform.m_position,
-				playerTransform.getGlobalPosition(),
-				sfw::getDeltaTime() * 10);
-
-
-
-		mat3 proj = translate(600, 600) * scale(2, 2);
-		mat3 view = inverse(cameraTransform.getGlobalTransform());
-		mat3 camera = proj * view;
-
-
-		playerRender.draw(camera, playerTransform);
-
-		cameraTransform.debugDraw(camera);
-
-		playerTransform.debugDraw(camera);
-		playerRigidbody.debugDraw(camera, playerTransform);
-
-		drawAABB(camera
-			* playerTransform.getGlobalTransform()
-			* AABB {
-			0, 0, 1, 2
-		}, RED);
-
-		drawPlane(camera
-			* playerTransform.getGlobalTransform()
-			* Plane {
-			0, 0, 0, 1
-		}, WHITE);
 	}
 	sfw::termContext();
 }

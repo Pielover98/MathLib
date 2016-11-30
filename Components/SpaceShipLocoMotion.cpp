@@ -1,39 +1,45 @@
-#include "SpaceShipLocoMotion.h"
+#include "SpaceshipLocomotion.h"
+
 #include "sfwdraw.h"
 
-SpaceShipLocoMotion::SpaceShipLocoMotion()
+SpaceShipLocomotion::SpaceShipLocomotion()
 {
 	vertThrust = 0.0f;
 	horzThrust = 0.0f;
-	breakPower = 10.0f;
-	turnSpeed = 10.0f;
-	speed = 500.0f;
-	maxSpeed = 1000.0f;
+	stopAction = 0.0f;
+	breakPower = 4.0f;
 
+	
+	turnSpeed = 4.0f;
+
+	
+	speed = 900.0f;
+	maxSpeed = 1000.0f;
 }
 
-void SpaceShipLocoMotion::doThrust(float value)
-{ vertThrust += value; }
+void SpaceShipLocomotion::doThrust(float value)
+{
+	vertThrust += value;
+}
 
-void SpaceShipLocoMotion::doTurn(float value)
-{ horzThrust += value; }
+void SpaceShipLocomotion::doTurn(float value)
+{
+	horzThrust += value;
+}
 
-void SpaceShipLocoMotion::doStop(float value)
-{ stopAction += value; }
+void SpaceShipLocomotion::doStop(float value)
+{
+	stopAction += value;
+}
 
-void SpaceShipLocoMotion::update(const Transform &trans, Rigidbody & rigidbody)
+void SpaceShipLocomotion::update(const Transform &trans,
+	Rigidbody &rigidbody)
 {
 	rigidbody.addForce(trans.getUp() * speed * vertThrust);
 	rigidbody.addTorque(turnSpeed * horzThrust);
 
-
-
-
-
-
 	rigidbody.addForce(-rigidbody.velocity * breakPower * stopAction);
 	rigidbody.addTorque(-rigidbody.angularVelocity * breakPower * stopAction);
+
 	horzThrust = vertThrust = stopAction = 0;
 }
-
-

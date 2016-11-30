@@ -10,10 +10,13 @@ vec3 & mat3::operator[](unsigned idx)
 	return c[idx];
 }
 
+
+
 mat3 mat3Identity()
 {
 	return mat3{ 1,0,0, 0,1,0, 0,0,1 };
 }
+
 
 mat3 transpose(const mat3 & A)
 {
@@ -34,6 +37,7 @@ bool operator==(const mat3 & A, const mat3 & B)
 		retval = retval && A[i] == B[i];
 
 	return retval;
+
 }
 
 bool operator!=(const mat3 & A, const mat3 & B)
@@ -103,6 +107,11 @@ vec3 operator*(const mat3 & A, const vec3 & V)
 }
 
 
+
+vec2 amul(const mat3 & A, const vec2 & V)
+{
+	return (A * vec3{ V.x, V.y, 1 }).xy;
+}
 
 float determinant(const mat3 & A)
 {

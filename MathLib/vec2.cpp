@@ -1,3 +1,4 @@
+
 #include "vec2.h"
 #include <cmath>
 #include "flops.h"
@@ -140,6 +141,8 @@ float &vec2::operator[](unsigned idx)
 
 
 
+
+
 vec2 min(const vec2 & A, const vec2 & B)
 {
 	return vec2{
@@ -150,5 +153,16 @@ vec2 min(const vec2 & A, const vec2 & B)
 vec2 max(const vec2 & A, const vec2 & B)
 {
 	return vec2{
-		A.x > B.x ? A.x : B.x, A.y > B.y ? A.y : B.y };
+		A.x > B.x ? A.x : B.x,
+		A.y > B.y ? A.y : B.y };
+}
+
+vec2 project(const vec2 & I, const vec2 & N)
+{
+	return dot(I, normal(N)) * normal(N);
+}
+
+vec2 reflect(const vec2 & I, const vec2 & N)
+{
+	return I - 2 * project(I, N);
 }

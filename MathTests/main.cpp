@@ -268,10 +268,6 @@ int main()
 	AABB As = { 0,0, 1,1 };
 	AABB Bs = { 0,10, 1,1 };
 
-
-	//assert(fequals(boxCollisionSwept(As, vec2{ 1,0 }, Bs, vec2{ -1,0 }).entryTime, 4));
-	//assert(fequals(boxCollisionSwept(As, vec2{ 1,0 }, Bs, vec2{ -1,0 }).exitTime, 6));
-
 	CollisionDataSwept testing =
 		boxCollisionSwept(As, vec2{ 0,1 }, Bs, vec2{ 0 ,-1 });
 
@@ -311,7 +307,10 @@ int main()
 
 	vec2 verts[] = { { 0,1 },{ 1,1 },{ 1,0 },{ 0,0 } };
 
+	vec2 verts2[] = { { -1,-1 },{ -1,1 },{ 0,0 } };
+
 	Hull myHull(verts, 4);
+	Hull otherHull(verts2, 3);
 
 	assert((myHull.normals[0] == vec2{ 0, 1 }));
 	assert((myHull.normals[1] == vec2{ 1, 0 }));
@@ -325,4 +324,16 @@ int main()
 	assert((tHull.vertices[1] == vec2{ 2, 1 }));
 	assert((tHull.vertices[2] == vec2{ 2, 0 }));
 	assert((tHull.vertices[3] == vec2{ 1, 0 }));
+
+	assert(fequals(HullCollision(myHull, otherHull).penetrationDepth, 0));
+	assert(fequals(HullCollision(otherHull, tHull).penetrationDepth, -1));
+
+	vec2 I = vec2{ -1, -1 }; 
+	vec2 xaxis = vec2{ 1,  0 }; 
+	vec2 Ref = vec2{ 1, -1 };
+
+	assert(project(I, xaxis) == -xaxis);
+	assert(reflect(I, xaxis) == Ref);
+
+
 }

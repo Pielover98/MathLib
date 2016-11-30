@@ -126,22 +126,42 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Asteroid.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Bullet2.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="Collider.cpp" />
+    <ClCompile Include="GameState.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ObjectCollision.cpp" />
     <ClCompile Include="PlanetaryMotor.cpp" />
     <ClCompile Include="PlanetaryRenderer.cpp" />
+    <ClCompile Include="Player2SpaceShip.cpp" />
+    <ClCompile Include="PlayerSpaceShip.cpp" />
     <ClCompile Include="Rigidbody.cpp" />
     <ClCompile Include="shapeDraw.cpp" />
+    <ClCompile Include="Spaceship2Controller.cpp" />
     <ClCompile Include="SpaceShipController.cpp" />
     <ClCompile Include="SpaceShipLocoMotion.cpp" />
     <ClCompile Include="SpaceShipRenderer.cpp" />
     <ClCompile Include="Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Asteroid.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Bullet2.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="Collider.h" />
+    <ClInclude Include="GameState.h" />
+    <ClInclude Include="ObjectCollision.h" />
     <ClInclude Include="PlanetaryMotor.h" />
     <ClInclude Include="PlanetaryRenderer.h" />
+    <ClInclude Include="Player2SpaceShip.h" />
+    <ClInclude Include="PlayerSpaceShip.h" />
     <ClInclude Include="Rigidbody.h" />
     <ClInclude Include="sfwdraw.h" />
     <ClInclude Include="shapeDraw.h" />
+    <ClInclude Include="Spaceship2Controller.h" />
     <ClInclude Include="SpaceShipController.h" />
     <ClInclude Include="SpaceShipLocoMotion.h" />
     <ClInclude Include="SpaceShipRenderer.h" />
