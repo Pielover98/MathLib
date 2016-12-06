@@ -16,6 +16,10 @@ public:
 	SpaceShipController controller;
 	SpaceShipLocomotion locomotion;
 
+	int healthP1 = 100;
+	int killsP1 = 0;
+
+
 	PlayerSpaceShip();
 
 	void update(float deltaTime, class GameState &gs);

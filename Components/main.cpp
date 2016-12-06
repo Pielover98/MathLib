@@ -20,7 +20,6 @@ void main()
 		game.update(dt);
 
 		game.draw();
-
 	}
 	sfw::termContext();
 }

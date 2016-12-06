@@ -16,6 +16,9 @@ public:
 	SpaceShip2Controller controller;
 	SpaceShipLocomotion locomotion;
 
+	int healthP2 = 100;
+	int killsP2 = 0;
+
 	Player2SpaceShip();
 
 	void update(float deltaTime, class GameState &gs);

@@ -1,31 +1,6 @@
 #include "ObjectCollision.h"
 
 
-void PlayerAsteroidCollision(PlayerSpaceShip & player, Asteroid & as)
-{
-	CollisionData result =
-		DynamicResolution(player.transform, player.rigidbody, player.collider,
-			as.transform, as.rigidbody, as.collider);
-
-	if (result.penetrationDepth >= 0)
-	{
-		
-		player.transform.m_scale *= .9f;
-	}
-}
-
-void Player2AsteroidCollision(Player2SpaceShip & player2, Asteroid & as)
-{
-	CollisionData result =
-		DynamicResolution(player2.transform, player2.rigidbody, player2.collider,
-			as.transform, as.rigidbody, as.collider);
-
-	if (result.penetrationDepth >= 0)
-	{
-
-		player2.transform.m_scale *= .9f;
-	}
-}
 void PlayerPlayer2Collision(PlayerSpaceShip & player, Player2SpaceShip & player2)
 {
 	CollisionData result =
@@ -34,8 +9,8 @@ void PlayerPlayer2Collision(PlayerSpaceShip & player, Player2SpaceShip & player2
 
 	if (result.penetrationDepth >= 0)
 	{
-
 		player.transform.m_scale *= .9f;
+		
 	}
 }
 void Player2PlayerCollision(Player2SpaceShip & player2, PlayerSpaceShip & player)
@@ -46,68 +21,30 @@ void Player2PlayerCollision(Player2SpaceShip & player2, PlayerSpaceShip & player
 
 	if (result.penetrationDepth >= 0)
 	{
-
+		
 		player2.transform.m_scale *= .9f;
+		
 	}
 }
 
 
-void AsteroidCollision(Asteroid & as1, Asteroid & as2)
-{
-	DynamicResolution(as1.transform, as1.rigidbody, as1.collider,
-		as2.transform, as2.rigidbody, as2.collider);
-}
-
-void BulletAsteroidP1Collision(Bullet &b, Asteroid &a)
-{
-	
-	if (!b.isAlive) return;
-
-	
-	CollisionData result =
-		DynamicResolution(b.transform, b.rigidbody, b.collider,
-			a.transform, a.rigidbody, a.collider);
-
-
-	if (result.penetrationDepth >= 0)
-	{
-		b.timer = 0;
-	}
-
-}
-void BulletAsteroidP2Collision(Bullet2 &b, Asteroid &a)
+void BulletPlayerCollision(Bullet2 &b2, PlayerSpaceShip &player)
 {
 
-	if (!b.isAlive) return;
+	if (!b2.isAlive) return;
 
 
 	CollisionData result =
-		DynamicResolution(b.transform, b.rigidbody, b.collider,
-			a.transform, a.rigidbody, a.collider);
-
-
-	if (result.penetrationDepth >= 0)
-	{
-		b.timer = 0;
-	}
-
-}
-void BulletPlayerCollision(Bullet2 &b, PlayerSpaceShip &player)
-{
-
-	if (!b.isAlive) return;
-
-
-	CollisionData result =
-		DynamicResolution(b.transform, b.rigidbody, b.collider,
+		DynamicResolution(b2.transform, b2.rigidbody, b2.collider,
 			player.transform, player.rigidbody, player.collider);
 
 
 	if (result.penetrationDepth >= 0)
 	{
-		b.timer = 0;
-	}
 
+		player.healthP1 -= 10;
+		b2.timer = 0;
+	}
 }
 void BulletPlayer2Collision(Bullet &b, Player2SpaceShip &player2)
 {
@@ -122,7 +59,51 @@ void BulletPlayer2Collision(Bullet &b, Player2SpaceShip &player2)
 
 	if (result.penetrationDepth >= 0)
 	{
+		player2.healthP2 -= 10;
 		b.timer = 0;
 	}
 
+}
+void PlayerArenaCollision(PlayerSpaceShip & player, Arena & arena)
+{
+	CollisionData result =
+		StaticResolution(player.transform, player.rigidbody, player.collider,
+			arena.arenaTransform, arena.arenaCollider);
+
+	
+}
+
+void Player2ArenaCollision(Player2SpaceShip & player2, Arena & arena)
+{
+	CollisionData result =
+		StaticResolution(player2.transform, player2.rigidbody, player2.collider,
+			arena.arenaTransform, arena.arenaCollider);
+
+	
+}
+
+void BulletArenaCollision(Bullet & b, Arena & arena)
+{
+	if (!b.isAlive) return;
+	CollisionData result =
+		StaticResolution(b.transform, b.rigidbody, b.collider,
+			arena.arenaTransform, arena.arenaCollider);
+
+	if (result.penetrationDepth >= 0)
+	{
+		b.timer = 0;
+	}
+}
+void Bullet2ArenaCollision(Bullet2 & b2, Arena & arena)
+{
+
+	if (!b2.isAlive) return;
+	CollisionData result =
+		StaticResolution(b2.transform, b2.rigidbody, b2.collider,
+			arena.arenaTransform, arena.arenaCollider);
+
+	if (result.penetrationDepth >= 0)
+	{
+		b2.timer = 0;
+	}
 }
