@@ -1,0 +1,1 @@
+Basic battle game using the AIE Year 1 math lib for an assesment. Player 1 is controlled with WASD and shoots with F. Player 2 is controlled with IJKL and shoots with M.
